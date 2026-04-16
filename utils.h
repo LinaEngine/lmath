@@ -18,5 +18,10 @@ namespace lina { namespace math { namespace utils {
     {
         return std::abs(f1 - f2) <= eps;
     }
+    template <typename T>
+    inline T operator-(T& s)
+    {
+        return s * -1;
+    }
 }}}
 #endif
