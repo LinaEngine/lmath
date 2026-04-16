@@ -33,6 +33,7 @@ namespace lina { namespace math {
             inline friend mat4 operator*(const mat4& m, f64 s);
             inline friend mat4 operator*(const mat4& m, const mat4& m2);
             inline friend vector4d operator*(const mat4& m, const vector4d& v);
+            inline friend vector3d operator*(const mat4& m, const vector3d& v);
             inline friend std::ostream& operator<<(std::ostream& os, const mat4& v);
             inline f64& operator()(i32 row, i32 col) {return rs[row][col];}
         private:
@@ -165,6 +166,12 @@ namespace lina { namespace math {
     inline vector4d operator*(const mat4& m, const vector4d& v)
     {
         return vector4d(m.row(0).dot(v), m.row(1).dot(v), m.row(2).dot(v), m.row(3).dot(v));
+    }
+    inline vector3d operator*(const mat4& m, const vector3d& v)
+    {
+        auto new_v = vector4d(v.x, v.y, v.z, 0.);
+        new_v = vector4d(m.row(0).dot(new_v), m.row(1).dot(new_v), m.row(2).dot(new_v), m.row(3).dot(new_v));
+        return vector3d(new_v.x, new_v.y, new_v.z);
     }
     inline mat4 operator*(const mat4& m, const mat4& m2)
     {
