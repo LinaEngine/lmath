@@ -28,6 +28,7 @@ namespace lina { namespace math{
             inline void operator*=(f64 s);
             inline void operator-=(f64 s);
             inline void operator+=(f64 s);
+            inline vector3d operator-() const;
 
             inline friend vector3d operator/(const vector3d& v, f64 s);
             inline friend vector3d operator*(const vector3d& v, f64 s);
@@ -49,6 +50,10 @@ namespace lina { namespace math{
 
             inline friend std::ostream& operator<<(const std::ostream& os, const vector3d& v);
     };
+    inline vector3d vector3d::operator-() const
+    {
+        return *this * -1;
+    }
     inline bool vector3d::same_direction(vector3d&& other) const
     {
         return dot(other) > 0;

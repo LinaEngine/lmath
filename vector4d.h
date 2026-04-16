@@ -27,6 +27,7 @@ namespace lina { namespace math{
             inline void operator*=(f64 s);
             inline void operator-=(f64 s);
             inline void operator+=(f64 s);
+            inline vector4d operator-() const;
 
             inline friend vector4d operator/(const vector4d& v, f64 s);
             inline friend vector4d operator*(const vector4d& v, f64 s);
@@ -48,6 +49,10 @@ namespace lina { namespace math{
 
             inline friend std::ostream& operator<<(const std::ostream& os, const vector4d& v);
     };
+    inline vector4d vector4d::operator-() const
+    {
+        return *this * -1;
+    }
     inline f64 vector4d::norm() const
     {
         return std::sqrt(x * x + y * y + z * z);
