@@ -12,6 +12,10 @@ namespace lina { namespace math { namespace transformations {
         m(2, 3) = v.z;
         return m;
     }
+    inline mat4 translate_matrix(vector3d& v)
+    {
+        return translate_matrix(std::move(v));
+    }
     inline mat4 scale_matrix(vector3d&& v)
     {
         mat4 m;
@@ -19,6 +23,10 @@ namespace lina { namespace math { namespace transformations {
         m(1, 1) = v.y;
         m(2, 2) = v.z;
         return m;
+    }
+    inline mat4 scale_matrix(vector3d& v)
+    {
+        return scale_matrix(std::move(v));
     }
     inline mat4 rot_matrix(vector3d&& axis, f64 theta)
     {
@@ -33,12 +41,20 @@ namespace lina { namespace math { namespace transformations {
                 vector4d(0, 0, 0, 1)
                 );
     }
+    inline mat4 rot_matrix(vector3d& axis, f64 theta)
+    {
+        return rot_matrix(std::move(axis), theta);
+    }
     inline mat4 rot_matrix(vector3d&& angles)
     {
         return 
             rot_matrix(vector3d(1, 0, 0), angles.x) * 
             rot_matrix(vector3d(0, 1, 0), angles.y) *
             rot_matrix(vector3d(0, 0, 1), angles.z);
+    }
+    inline mat4 rot_matrix(vector3d& angles)
+    {
+        return rot_matrix(std::move(angles));
     }
     inline mat4 projMatrix(f64 fov, f64 ar, f64 nearf = 0., f64 farf =1e3)
     {
