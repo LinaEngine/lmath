@@ -28,5 +28,11 @@ namespace lina { namespace math { namespace utils {
     {
         return s * -1;
     }
+
+    template <typename T>
+    inline T operator-(T s)
+    {
+        return s * -1;
+    }
 }}}
 #endif
