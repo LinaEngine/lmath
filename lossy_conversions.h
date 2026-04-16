@@ -19,5 +19,13 @@ namespace lina { namespace math { namespace conversions {
     {
         return v.x;
     }
+    inline vector4d extend(vector3d&& v, f64 w = 0.)
+    {
+        return vector4d(v.x, v.y, v.z, w);
+    }
+    inline vector3d extend(vector2d&& v, f64 z = 0.)
+    {
+        return vector3d(v.x, v.y,z);
+    }
 }}}
 #endif
