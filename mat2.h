@@ -29,6 +29,7 @@ namespace lina { namespace math {
             inline friend mat2 operator*(const mat2& m, const mat2& m2);
             inline friend vector2d operator*(const mat2& m, const vector2d& v);
             inline friend std::ostream& operator<<(std::ostream& os, const mat2& v);
+            inline f64& operator()(i32 row, i32 col) {return rs[row][col];}
         private:
             std::array<std::array<f64, 2>, 2> rs;
     };
@@ -43,26 +44,30 @@ namespace lina { namespace math {
 
     inline f64 mat2::det() const
     {
-        return row(1).x * row(2).y - row(1).y * row(2).x;
+        return row(0).x * row(1).y - row(0).y * row(1).x;
     }
     inline void mat2::transpose()
     {
-
+        rs = (std::array<std::array<f64, 2>, 2>){(std::array<f64, 2>){row(0).x, row(1).x}, (std::array<f64, 2>){row(0).y, row(1).y}};
     }
     inline mat2 mat2::get_transpose() const
     {
-        return mat2(vector2d(row(1).x, row(2).x), vector2d(row(1).y, row(2).y));
+        return mat2(vector2d(row(0).x, row(1).x), vector2d(row(0).y, row(1).y));
     }
     inline mat2 mat2::get_inverse() const
     {
+        return  mat2(vector2d(rs[1][1], - rs[0][1]), vector2d(-rs[1][0], rs[0][0])) * (1. / det());
     }
     inline void mat2::zero()
     {
-
+        rs.fill({0, 0});
     }
     inline void mat2::identity()
     {
-
+        rs[0][0] = 1.;
+        rs[0][1] = 0.;
+        rs[1][0] = 0.;
+        rs[1][1] = 1.;
     }
     inline mat2 mat2::get_identity()
     {
@@ -74,31 +79,31 @@ namespace lina { namespace math {
     }
     inline mat2 operator/(const mat2& m, f64 s)
     {
-        return mat2(m.row(1)/s, m.row(2)/s);
+        return mat2(m.row(0)/s, m.row(1)/s);
     }
     inline mat2 operator*(const mat2& m, f64 s)
     {
-        return mat2(m.row(1)*s, m.row(2)*s);
+        return mat2(m.row(0)*s, m.row(1)*s);
     }
     inline vector2d operator*(const mat2& m, const vector2d& v)
     {
-        return vector2d(m.row(1).dot(v), m.row(2).dot(v));
+        return vector2d(m.row(0).dot(v), m.row(1).dot(v));
     }
     inline mat2 operator*(const mat2& m, const mat2& m2)
     {
         return mat2(
                 vector2d(
-                    m.row(1).x * m2.row(1).x + m.row(1).y * m2.row(2).x,
-                    m.row(1).x * m2.row(1).y + m.row(1).y * m2.row(2).y
+                    m.row(0).x * m2.row(0).x + m.row(0).y * m2.row(1).x,
+                    m.row(0).x * m2.row(0).y + m.row(0).y * m2.row(1).y
                     ), 
                 vector2d(
-                    m.row(2).x * m2.row(1).x + m.row(2).y * m2.row(2).x,
-                    m.row(2).x * m2.row(1).y + m.row(2).y * m2.row(2).y
+                    m.row(1).x * m2.row(0).x + m.row(1).y * m2.row(1).x,
+                    m.row(1).x * m2.row(0).y + m.row(1).y * m2.row(1).y
                     ));
     }
     inline std::ostream& operator<<(std::ostream& os, const mat2& m)
     {
-        os << "{\n" << m.row(1) << '\n' << m.row(2) << "\n}";
+        os << "{\n" << m.row(0) << '\n' << m.row(1) << "\n}";
         return os;
     }
 }}
