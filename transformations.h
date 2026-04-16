@@ -3,7 +3,7 @@
 #include "vector3d.h"
 #include "all.h"
 #include "vector4d.h"
-namespace lina { namespace math {
+namespace lina { namespace math { namespace transformations {
     inline mat4 translate_matrix(vector3d&& v)
     {
         mat4 m;
@@ -47,5 +47,5 @@ namespace lina { namespace math {
                 vector4d(0, 0, A, B),
                 vector4d(0, 0, 1, 0));
     }
-}}
+}}}
 #endif

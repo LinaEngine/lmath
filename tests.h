@@ -10,6 +10,8 @@ namespace lina { namespace math { namespace tests{
     void v3d_tests();
     void mat2_tests();
     void mat3_tests();
+    void mat4_tests();
+    void transofmration_tests();
     void all();
 }}}
 #endif

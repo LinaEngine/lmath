@@ -1,9 +1,11 @@
 #include "tests.h"
+#include "transformations.h"
 #include "utils.h"
 #include "vector2d.h"
 #include "vector3d.h"
 #include "vector4d.h"
 #include <cassert>
+#include <cmath>
 namespace lina { namespace math { namespace tests{
     void v2d_tests()
     {
@@ -308,6 +310,47 @@ namespace lina { namespace math { namespace tests{
         END_TEST("mat4");
     }
 
+    void transofmration_tests()
+    {
+        BEGIN_TEST("transformations");
+        using namespace utils;
+        using namespace transformations;
+        vector4d origin(0, 0, 0, 1);
+        auto trans = translate_matrix(vector3d(1, 0, 0));
+
+        origin = trans * origin;
+        assert(f64_eq(origin.x, 1.));
+        assert(f64_eq(origin.y, 0.));
+        assert(f64_eq(origin.z, 0.));
+
+        trans = translate_matrix(vector3d(-1, 2, 3));
+        origin = trans * origin;
+
+        assert(f64_eq(origin.x, 0.));
+        assert(f64_eq(origin.y, 2.));
+        assert(f64_eq(origin.z, 3.));
+
+        origin.x = 1;
+        origin.y = 0;
+        origin.z = 0;
+
+        trans = rot_matrix(vector3d(0, 0, 1), M_PI/2.);
+        origin = trans * origin;
+
+        assert(f64_eq(origin.x, 0.));
+        assert(f64_eq(origin.y, 1.));
+        assert(f64_eq(origin.z, 0.));
+
+        origin = vector4d(1, 2, 3, 1);
+        trans = scale_matrix(vector3d(-1, 2, 3));
+        origin = trans * origin;
+
+        assert(f64_eq(origin.x, -1));
+        assert(f64_eq(origin.y, 4.));
+        assert(f64_eq(origin.z, 9.));
+
+        END_TEST("transformations");
+    }
     void all()
     {
         v2d_tests();
@@ -315,5 +358,6 @@ namespace lina { namespace math { namespace tests{
         mat2_tests();
         mat3_tests();
         mat4_tests();
+        transofmration_tests();
     }
 }}}
