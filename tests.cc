@@ -1,6 +1,8 @@
 #include "tests.h"
 #include "utils.h"
 #include "vector2d.h"
+#include "vector3d.h"
+#include "vector4d.h"
 #include <cassert>
 namespace lina { namespace math { namespace tests{
     void v2d_tests()
@@ -112,11 +114,11 @@ namespace lina { namespace math { namespace tests{
 
         assert(utils::f64_eq(v3.x, 0.));
         assert(utils::f64_eq(v3.y, 0.));
-        assert(utils::f64_eq(v3.z, -1.));
+        assert(utils::f64_eq(v3.z, 1.));
 
         assert(utils::f64_eq(v4.x, 0.));
         assert(utils::f64_eq(v4.y, 0.));
-        assert(utils::f64_eq(v4.z, 1.));
+        assert(utils::f64_eq(v4.z, -1.));
 
         END_TEST("vec3");
     }
@@ -170,11 +172,148 @@ namespace lina { namespace math { namespace tests{
 
         END_TEST("mat2");
     }
+    void mat3_tests()
+    {
+        BEGIN_TEST("mat3");
+        using namespace math::utils;
+        mat3 m;
+        mat3 minv = m.get_inverse();
+
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                assert(f64_eq(m(i, j), minv(i, j)));
+            }
+        }
+
+
+        auto det = m.det();
+        assert(f64_eq(det, 1.));
+
+        m = m * 2.;
+
+        assert(f64_eq(m(0, 0), 2.));
+        assert(f64_eq(m(1, 1), 2.));
+        assert(f64_eq(m(2, 2), 2.));
+
+        det = m.det();
+        assert(f64_eq(det, 8.));
+
+        m = mat3(vector3d(2, 1, 11), vector3d(1, 3, 13), vector3d(4, 7, 15));
+
+        assert(f64_eq(m.det(), -110));
+        minv = m.get_inverse();
+
+        assert(f64_eq(minv(0, 0), 23./55.));
+        assert(f64_eq(minv(0, 1), -31./55.));
+        assert(f64_eq(minv(0, 2), 2./11.));
+
+        assert(f64_eq(minv(1, 0), -37./110));
+        assert(f64_eq(minv(1, 1), 7./55.));
+        assert(f64_eq(minv(1, 2), 3./22.));
+
+        assert(f64_eq(minv(2, 0), 1./22.));
+        assert(f64_eq(minv(2, 1), 1./11.));
+        assert(f64_eq(minv(2, 2), -1./22.));
+
+        vector3d v(2, 3, 5);
+
+        mat3 seq(vector3d(1, 2, 3), vector3d(4, 5, 6), vector3d(7, 8, 9));
+
+        v = seq * v;
+
+        assert(f64_eq(v.x, 23.));
+        assert(f64_eq(v.y, 53.));
+        assert(f64_eq(v.z, 83.));
+
+        END_TEST("mat3");
+    }
+
+    void mat4_tests()
+    {
+        BEGIN_TEST("mat4");
+        using namespace math::utils;
+        mat4 m;
+        mat4 minv = m.get_inverse();
+
+
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                assert(f64_eq(m(i, j), minv(i, j)));
+            }
+        }
+
+
+        auto det = m.det();
+        assert(f64_eq(det, 1.));
+
+        m = m * 2.;
+
+        assert(f64_eq(m(0, 0), 2.));
+        assert(f64_eq(m(1, 1), 2.));
+        assert(f64_eq(m(2, 2), 2.));
+        assert(f64_eq(m(3, 3), 2.));
+
+        det = m.det();
+        assert(f64_eq(det, 16.));
+
+        m = mat4(
+                vector4d(2, 1, 11, 4),
+                vector4d(1, 3, 13, 2),
+                vector4d(4, 7, 15, 1),
+                vector4d(1, 2, 3, 4));
+
+        assert(f64_eq(m.det(), -465));
+        minv = m.get_inverse();
+
+        assert(f64_eq(minv(0, 0), 37./93.));
+        assert(f64_eq(minv(0, 1), -53./93.));
+        assert(f64_eq(minv(0, 2), 22./93.));
+        assert(f64_eq(minv(0, 3), -16./93.));
+
+        assert(f64_eq(minv(1, 0), -48./155.));
+        assert(f64_eq(minv(1, 1), 21./155.));
+        assert(f64_eq(minv(1, 2), 2./31.));
+        assert(f64_eq(minv(1, 3), 7./31.));
+
+        assert(f64_eq(minv(2, 0), 17./465.));
+        assert(f64_eq(minv(2, 1), 41./465.));
+        assert(f64_eq(minv(2, 2), -2./93.));
+        assert(f64_eq(minv(2, 3), -7./93.));
+
+        assert(f64_eq(minv(3, 0), 13./465.));
+        assert(f64_eq(minv(3, 1), 4./465.));
+        assert(f64_eq(minv(3, 2), -7./93.));
+        assert(f64_eq(minv(3, 3), 22./93.));
+
+        vector4d v(2, 3, 5, -7);
+
+        mat4 seq(vector4d(1, 2, 3, 4), 
+                vector4d(5, 6, 7, 8),
+                vector4d(9, 10, 11, 12),
+                vector4d(13, 14, 15, 16)
+                );
+
+        v = seq * v;
+
+        assert(f64_eq(v.x, -5.));
+        assert(f64_eq(v.y, 7.));
+        assert(f64_eq(v.z, 19.));
+        assert(f64_eq(v.w, 31.));
+
+        END_TEST("mat4");
+    }
 
     void all()
     {
         v2d_tests();
         v3d_tests();
         mat2_tests();
+        mat3_tests();
+        mat4_tests();
     }
 }}}

@@ -61,7 +61,7 @@ namespace lina { namespace math{
     }
     inline vector3d vector3d::cross(const vector3d& other) const
     {
-        return vector3d(y * other.z  - z * other.y, z * other.x - x * other.z, y * other.x - x * other.y);
+        return vector3d(y * other.z  - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x);
     }
     inline vector3d operator/(const vector3d& v, f64 s)
     {

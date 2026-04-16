@@ -58,11 +58,11 @@ namespace lina { namespace math{
     }
     inline f64 vector4d::dot(const vector4d& other) const 
     {
-        return x * other.x + y * other.y + z * other.z;
+        return x * other.x + y * other.y + z * other.z + w * other.w;
     }
     inline vector4d vector4d::cross(const vector4d& other) const
     {
-        return vector4d(y * other.z  - z * other.y, z * other.x - x * other.z, y * other.x - x * other.y, 1.);
+        return vector4d(y * other.z  - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x, 1.);
     }
     inline vector4d operator/(const vector4d& v, f64 s)
     {
