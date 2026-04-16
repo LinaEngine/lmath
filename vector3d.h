@@ -20,6 +20,8 @@ namespace lina { namespace math{
             inline f64 dot(const vector3d& other) const;
             inline vector3d cross(const vector3d& other) const;
             inline vector3d normalized() const;
+            inline bool same_direction(const vector3d& other) const;
+            inline bool same_direction(vector3d&& other) const;
             inline void normalize();
             //math operations
             inline void operator/=(f64 s);
@@ -47,6 +49,14 @@ namespace lina { namespace math{
 
             inline friend std::ostream& operator<<(const std::ostream& os, const vector3d& v);
     };
+    inline bool vector3d::same_direction(vector3d&& other) const
+    {
+        return dot(other) > 0;
+    }
+    inline bool vector3d::same_direction(const vector3d& other) const
+    {
+        return dot(other) > 0;
+    }
     inline f64 vector3d::norm() const
     {
         return std::sqrt(x * x + y * y + z * z);
